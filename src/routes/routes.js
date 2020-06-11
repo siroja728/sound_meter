@@ -12,10 +12,10 @@ const { store } = Store();
 const ReduxRouter = connect()(Router);
 const reducerCreate = params => {
     const defaultReducer = new Reducer(params);
-  
+
     return (state, action) => {
       store.dispatch(action);
-  
+
       return defaultReducer(state, action);
     };
   };
@@ -37,13 +37,13 @@ const reducerCreate = params => {
                                 key={ ROUTES.HOME }
                                 hideNavBar
                                 initial
-                                title='Home'
+                                title='dB'
                                 component={ HomeScreen }
                             />
                             <Scene
                                 key={ ROUTES.ABOUT }
                                 hideNavBar
-                                title='About'
+                                title='Info'
                                 component={ ()=><SafeAreaView><View style={{flex:1,backgroundColor:'red'}}><Text>About</Text></View></SafeAreaView> }
                             />
 

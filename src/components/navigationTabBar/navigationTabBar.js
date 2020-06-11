@@ -11,11 +11,11 @@ class NavigationTabBar extends React.Component {
   getIconName = (key) => {
     switch(key) {
       case ROUTES.HOME:
-        return 'home';
+        return 'equalizer';
       case ROUTES.ABOUT:
         return 'info';
       default:
-        return 'home';
+        return 'equalizer';
     }
   };
 

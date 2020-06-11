@@ -79,6 +79,12 @@ target 'SoundMeter' do
 
   pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
 
+  pod 'RNSoundLevel', :path => '../node_modules/react-native-sound-level'
+
+  pod 'RNAudio', :path => '../node_modules/react-native-audio'
+
+  pod 'RNSVG', :path => '../node_modules/react-native-svg'
+
   target 'SoundMeterTests' do
     inherit! :complete
     # Pods for testing

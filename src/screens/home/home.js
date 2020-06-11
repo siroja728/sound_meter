@@ -1,29 +1,115 @@
 import React, { Component } from 'react';
-import { ScrollView, View, Text } from 'react-native';
+import { ScrollView, View, Text, PermissionsAndroid } from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
 import * as homeActions from './homeActions';
+import RNSoundLevel from 'react-native-sound-level';
+import { AnimatedCircularProgress } from 'react-native-circular-progress';
 
 class HomeScreen extends Component {
-    componentDidMount(){
+
+    state = {
+        currentLevel: 0,
+        minLevel: 0,
+        maxLevel: 0,
+        avg: 0,
+    };
+
+    componentDidMount() {
         const { homeActions } = this.props;
-        homeActions.getData();
+        this.requestAudioPermission().then(() => {
+            RNSoundLevel.start();
+            RNSoundLevel.onNewFrame = (data) => {
+                this.setState({currentLevel: data.value},() => {
+                    const { minLevel, maxLevel, currentLevel } = this.state;
+                    if(!minLevel){
+                        this.setState({ minLevel: currentLevel });
+                    }
+                    if(currentLevel > maxLevel){
+                        this.setState({ maxLevel: currentLevel });
+                    }
+                    if((currentLevel < maxLevel && currentLevel < minLevel)){
+                        this.setState({ minLevel: currentLevel });
+                    }
+                    this.avarage(minLevel, maxLevel);
+                });
+            }
+        });
+
+        // clear state every minute for getting correct results
+        setInterval(() => this.setState({ minLevel: 0, maxLevel: 0, avg: 0 }), 60000)
     }
+
+    componentWillUnmount() {
+        RNSoundLevel.stop();
+    }
+
+    async requestAudioPermission() {
+        try {
+            const granted = await PermissionsAndroid.request(
+                PermissionsAndroid.PERMISSIONS.RECORD_AUDIO,
+                {
+                    title: "Sound Permissions",
+                    message:
+                        "Sound Meter App needs access to your microphone",
+                    buttonNeutral: "Ask Me Later",
+                    buttonNegative: "Cancel",
+                    buttonPositive: "OK"
+                }
+            );
+            if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+                console.log("You can use sound meter");
+            } else {
+                console.log("Audio permission denied");
+            }
+
+        }catch (e) {
+
+        }
+    }
+
+    avarage = (min,max) => {
+        const avg = ((min*1 + max*1) /2).toFixed(0);
+        this.setState({avg})
+    };
+
+    handleColorChange = () => {
+        const { currentLevel } = this.state;
+        if((currentLevel >=40) && (currentLevel < 50)){
+            return 'green'
+        }
+        if(currentLevel >=50 && currentLevel < 80) {
+            return 'yellow'
+        }
+        return 'green';
+    };
 
     render() {
         const { homeReducer } = this.props;
         const { data } = homeReducer;
-        const usersList = data;
+        const { currentLevel, minLevel, maxLevel, avg } = this.state;
+        // Maximum level 120db but progress component needs progress from 0 to 100.
+        const progress = currentLevel/1.2;
         return (
-            <ScrollView>
-                { usersList.map(user => (
-                    <View key={ user.id } style={{elevation: 3, backgroundColor: 'white', margin: 5, padding: 10}}>
-                        <Text>Name: { user.name }</Text>
-                        <Text>Email: { user.email }</Text>
-                        <Text>Website: { user.website }</Text>
-                    </View>
-                ))}
+            <ScrollView style={ { flex: 1 } } contentContainerStyle={{ flex:1, alignItems: 'center', justifyContent: 'center' }}>
+                <AnimatedCircularProgress
+                    size={ 250 }
+                    width={ 30 }
+                    rotation={ 180 }
+                    fill={ progress }
+                    tintColor={ this.handleColorChange() }
+                    backgroundColor="#3d5875">
+                    {
+                        () => (
+                            <View>
+                                <Text style={ { fontSize: 40, textAlign: 'center' } }>{ currentLevel }dB</Text>
+                                <Text style={{ textAlign: 'center' }}>Min:{ minLevel } - Max: { maxLevel }</Text>
+                                <Text style={{ textAlign: 'center' }}>Avg:{ avg }</Text>
+                            </View>
+                        )
+                    }
+                </AnimatedCircularProgress>
             </ScrollView>
         )
     }
@@ -44,6 +130,6 @@ function mapDispatchToProps(dispatch) {
 HomeScreen.propTypes = {
     homeActions: PropTypes.object.isRequired,
     homeReducer: PropTypes.object.isRequired,
-}
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(HomeScreen);
