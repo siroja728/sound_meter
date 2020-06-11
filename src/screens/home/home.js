@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 import * as homeActions from './homeActions';
 import RNSoundLevel from 'react-native-sound-level';
 import { AnimatedCircularProgress } from 'react-native-circular-progress';
+import { handleColorChange } from '../../services/helpers';
 
 class HomeScreen extends Component {
 
@@ -74,17 +75,6 @@ class HomeScreen extends Component {
         this.setState({avg})
     };
 
-    handleColorChange = () => {
-        const { currentLevel } = this.state;
-        if((currentLevel >=40) && (currentLevel < 50)){
-            return 'green'
-        }
-        if(currentLevel >=50 && currentLevel < 80) {
-            return 'yellow'
-        }
-        return 'green';
-    };
-
     render() {
         const { homeReducer } = this.props;
         const { data } = homeReducer;
@@ -98,7 +88,7 @@ class HomeScreen extends Component {
                     width={ 30 }
                     rotation={ 180 }
                     fill={ progress }
-                    tintColor={ this.handleColorChange() }
+                    tintColor={ handleColorChange(currentLevel) }
                     backgroundColor="#3d5875">
                     {
                         () => (
