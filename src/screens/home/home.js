@@ -7,6 +7,7 @@ import * as homeActions from './homeActions';
 import RNSoundLevel from 'react-native-sound-level';
 import { AnimatedCircularProgress } from 'react-native-circular-progress';
 import { handleColorChange } from '../../services/helpers';
+import styles from './homeStyles';
 
 class HomeScreen extends Component {
 
@@ -82,7 +83,7 @@ class HomeScreen extends Component {
         // Maximum level 120db but progress component needs progress from 0 to 100.
         const progress = currentLevel/1.2;
         return (
-            <ScrollView style={ { flex: 1 } } contentContainerStyle={{ flex:1, alignItems: 'center', justifyContent: 'center' }}>
+            <ScrollView style={ { flex: 1 } } contentContainerStyle={ styles.scrollContent }>
                 <AnimatedCircularProgress
                     size={ 250 }
                     width={ 30 }
@@ -93,9 +94,9 @@ class HomeScreen extends Component {
                     {
                         () => (
                             <View>
-                                <Text style={ { fontSize: 40, textAlign: 'center' } }>{ currentLevel }dB</Text>
-                                <Text style={{ textAlign: 'center' }}>Min:{ minLevel } - Max: { maxLevel }</Text>
-                                <Text style={{ textAlign: 'center' }}>Avg:{ avg }</Text>
+                                <Text style={ styles.currentLevel }>{ currentLevel }dB</Text>
+                                <Text style={ styles.textCenter }>Min:{ minLevel } - Max: { maxLevel }</Text>
+                                <Text style={ styles.textCenter }>Avg:{ avg }</Text>
                             </View>
                         )
                     }
