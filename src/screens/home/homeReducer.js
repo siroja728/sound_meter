@@ -1,16 +1,21 @@
 import { homeActionTypes } from './homeConstants';
 
 const initialState = {
-    data: []
+    levels: []
 };
 
 export default function homeReducer(state = initialState, action) {
+
     switch(action.type) {
-        case homeActionTypes.GET_DATA_SUCCESS:
+        case homeActionTypes.ADD_LEVEL_SUCCESS:
+            let newLevels = state.levels;
+            if(state.levels.length > 100){
+                newLevels = state.levels.splice(1,1);
+            }
             return {
                 ...state,
-                data: action.payload.data,
-            }
+                levels: state.levels.length > 100 ? [...newLevels, action.payload] : [...state.levels, action.payload],
+            };
         default:
             return state;
     }

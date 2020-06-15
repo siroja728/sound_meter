@@ -1,4 +1,5 @@
 import { StyleSheet } from 'react-native';
+import Constants from '../../services/stylesConstants';
 import { isIphoneXorAbove } from '../../services/helpers';
 
 export default StyleSheet.create({
@@ -11,11 +12,11 @@ export default StyleSheet.create({
     paddingHorizontal: 10,
     backgroundColor: 'white',
     borderTopWidth: 1,
-    borderTopColor: '#b6b6b6',
+    borderTopColor: Constants.colors.lightGrey,
   },
   tabBarText: {
     fontSize: 10,
-    color: 'grey',
+    color: Constants.colors.grey,
   },
   tabBarTab: {
     flex: 1,
@@ -23,9 +24,9 @@ export default StyleSheet.create({
     alignItems: 'center',
   },
   tabBarIcon: {
-    color: 'grey',
+    color: Constants.colors.grey,
   },
   activeTab: {
-    color: 'blue',
+    color: Constants.colors.blue,
   },
 });

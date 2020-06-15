@@ -1,17 +1,15 @@
 import { takeEvery, put, call } from 'redux-saga/effects';
 import { homeActionTypes } from './homeConstants';
 import * as homeActions from './homeActions';
-import { processRequest } from '../../services/api';
 
 export function* watchGetData() {
-    yield takeEvery(homeActionTypes.GET_DATA, handleGetData);
+    yield takeEvery(homeActionTypes.ADD_LEVEL, addNewLevel);
 }
 
-export function* handleGetData(action) {
+export function* addNewLevel(action) {
     try {
-       const data = yield call(processRequest,'users');
-       yield put(homeActions.getDataSuccess(data));
+       yield put(homeActions.addLevelSuccess(action.payload));
     } catch (error) {
-       yield put(homeActions.getDataError(error)); 
+       console.log(error);
     }
 }

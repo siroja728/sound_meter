@@ -1,13 +1,16 @@
 import React, { Component } from 'react';
-import { ScrollView, View, Text, PermissionsAndroid } from 'react-native';
+import { ScrollView, View, Text, PermissionsAndroid, Dimensions, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
 import * as homeActions from './homeActions';
 import RNSoundLevel from 'react-native-sound-level';
 import { AnimatedCircularProgress } from 'react-native-circular-progress';
+import { AreaChart, Grid, YAxis } from 'react-native-svg-charts'
+import * as shape from 'd3-shape'
 import { handleColorChange } from '../../services/helpers';
 import styles from './homeStyles';
+import Constants from '../../services/stylesConstants';
 
 class HomeScreen extends Component {
 
@@ -20,6 +23,7 @@ class HomeScreen extends Component {
 
     componentDidMount() {
         const { homeActions } = this.props;
+        const { addLevel } = homeActions;
         this.requestAudioPermission().then(() => {
             RNSoundLevel.start();
             RNSoundLevel.onNewFrame = (data) => {
@@ -35,12 +39,10 @@ class HomeScreen extends Component {
                         this.setState({ minLevel: currentLevel });
                     }
                     this.avarage(minLevel, maxLevel);
+                    addLevel(data.value);
                 });
             }
         });
-
-        // clear state every minute for getting correct results
-        setInterval(() => this.setState({ minLevel: 0, maxLevel: 0, avg: 0 }), 60000)
     }
 
     componentWillUnmount() {
@@ -76,21 +78,38 @@ class HomeScreen extends Component {
         this.setState({avg})
     };
 
+    handleRest = () => {
+      this.setState({
+          minLevel: 0,
+          maxLevel: 0,
+          avg: 0,
+      })
+    };
+
     render() {
         const { homeReducer } = this.props;
-        const { data } = homeReducer;
+        const { levels } = homeReducer;
         const { currentLevel, minLevel, maxLevel, avg } = this.state;
-        // Maximum level 120db but progress component needs progress from 0 to 100.
-        const progress = currentLevel/1.2;
+        const contentInset = { top: 10, bottom: 10 };
+        const screenWidth = Math.round(Dimensions.get('window').width);
+        const chartWidth = screenWidth - 100;
+
+        // Maximum level 140db but progress component needs progress from 0 to 100.
+        const progress = currentLevel/1.4;
         return (
             <ScrollView style={ { flex: 1 } } contentContainerStyle={ styles.scrollContent }>
+                <View style={ styles.resetBtnContainer }>
+                    <TouchableOpacity style={ styles.resetBtn } onPress={ this.handleRest }>
+                        <Text style={ styles.resetBtnText }>Reset</Text>
+                    </TouchableOpacity>
+                </View>
                 <AnimatedCircularProgress
-                    size={ 250 }
+                    size={ chartWidth }
                     width={ 30 }
                     rotation={ 180 }
                     fill={ progress }
                     tintColor={ handleColorChange(currentLevel) }
-                    backgroundColor="#3d5875">
+                    backgroundColor={ Constants.colors.blue_08 }>
                     {
                         () => (
                             <View>
@@ -101,6 +120,28 @@ class HomeScreen extends Component {
                         )
                     }
                 </AnimatedCircularProgress>
+                <View style={ styles.bottomChartContainer }>
+                    <YAxis
+                        data={ levels }
+                        svg={{
+                            fill: 'grey',
+                            fontSize: 10,
+                        }}
+                        max={ maxLevel }
+                        numberOfTicks={ 10 }
+                        formatLabel={ (value) => `${value}dB` }
+                        contentInset={ contentInset }
+                    />
+                    <AreaChart
+                        style={ { height: 150, width: chartWidth } }
+                        data={ levels }
+                        contentInset={ contentInset }
+                        curve={ shape.curveNatural }
+                        svg={{ fill: Constants.colors.blue_08 }}
+                    >
+                        <Grid />
+                    </AreaChart>
+                </View>
             </ScrollView>
         )
     }

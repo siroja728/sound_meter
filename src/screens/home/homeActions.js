@@ -1,21 +1,15 @@
 import { homeActionTypes } from './homeConstants';
 
-export function getData() {
+export function addLevel(level) {
     return {
-        type: homeActionTypes.GET_DATA
+        type: homeActionTypes.ADD_LEVEL,
+        payload: level,
     }
 }
 
-export function getDataSuccess(data) {
+export function addLevelSuccess(level) {
     return {
-        type: homeActionTypes.GET_DATA_SUCCESS,
-        payload: data,
-    }
-}
-
-export function getDataError(error) {
-    return {
-        type: homeActionTypes.GET_DATA_ERROR,
-        payload: error,
+        type: homeActionTypes.ADD_LEVEL_SUCCESS,
+        payload: level,
     }
 }
