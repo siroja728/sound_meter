@@ -101,13 +101,14 @@ class HomeScreen extends Component {
         // Maximum level 140db but progress component needs progress from 0 to 100.
         const progress = currentLevel/1.4;
         return (
-            <ScrollView style={ { flex: 1 } } contentContainerStyle={ styles.scrollContent }>
+            <ScrollView style={ { flex: 1 } }  contentContainerStyle={ styles.scrollContent }>
                 <View style={ styles.resetBtnContainer }>
                     <TouchableOpacity style={ styles.resetBtn } onPress={ this.handleRest }>
                         <Text style={ styles.resetBtnText }>Reset</Text>
                     </TouchableOpacity>
                 </View>
                 <AnimatedCircularProgress
+                    style={ { marginTop: 90 } }
                     size={ chartWidth }
                     width={ 30 }
                     rotation={ 180 }

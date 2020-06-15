@@ -2,9 +2,9 @@ import { StyleSheet } from 'react-native';
 import Constants from '../../services/stylesConstants';
 export default StyleSheet.create({
     scrollContent: {
-        flex:1,
         alignItems: 'center',
         justifyContent: 'center',
+        flexGrow: 1,
     },
     currentLevel: {
         fontSize: 40,
@@ -21,9 +21,13 @@ export default StyleSheet.create({
     resetBtnContainer: {
         position: 'absolute',
         top: 40,
-        right: 40,
+        maxHeight: 70,
+        width: '100%',
+        alignItems:'flex-end',
+        flex: 1,
     },
     resetBtn: {
+        marginRight: 40,
         borderRadius: 50,
         width: 50,
         height: 50,
