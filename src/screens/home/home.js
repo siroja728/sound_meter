@@ -79,11 +79,15 @@ class HomeScreen extends Component {
     };
 
     handleRest = () => {
-      this.setState({
-          minLevel: 0,
-          maxLevel: 0,
-          avg: 0,
-      })
+        const { homeActions } = this.props;
+        const { resetData } = homeActions;
+
+        this.setState({
+            minLevel: 0,
+            maxLevel: 0,
+            avg: 0,
+        });
+        resetData();
     };
 
     render() {

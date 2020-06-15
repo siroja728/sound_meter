@@ -16,6 +16,11 @@ export default function homeReducer(state = initialState, action) {
                 ...state,
                 levels: state.levels.length > 100 ? [...newLevels, action.payload] : [...state.levels, action.payload],
             };
+        case homeActionTypes.RESET_DATA:
+            return {
+                ...state,
+                levels: [0],
+            };
         default:
             return state;
     }

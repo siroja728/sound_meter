@@ -13,3 +13,9 @@ export function addLevelSuccess(level) {
         payload: level,
     }
 }
+
+export function resetData() {
+    return {
+        type: homeActionTypes.RESET_DATA,
+    }
+}
