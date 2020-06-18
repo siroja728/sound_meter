@@ -85,6 +85,8 @@ target 'SoundMeter' do
 
   pod 'RNSVG', :path => '../node_modules/react-native-svg'
 
+  pod 'RNFBAdMob', :path => '../node_modules/@react-native-firebase/admob'
+
   target 'SoundMeterTests' do
     inherit! :complete
     # Pods for testing

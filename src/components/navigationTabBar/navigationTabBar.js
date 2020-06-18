@@ -3,6 +3,7 @@ import { Text, View, TouchableOpacity } from 'react-native';
 import PropTypes from 'prop-types';
 import { Actions } from 'react-native-router-flux';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import { BannerAd, BannerAdSize, TestIds } from '@react-native-firebase/admob';
 import { ROUTES } from '../../routes/routesConstants';
 import styles from './navigationTabBarStyles';
 
@@ -29,23 +30,32 @@ class NavigationTabBar extends React.Component {
     const hiddenTabs = params.hasOwnProperty('hiddenTabs') ? params.hiddenTabs : [];
 
     return (
-      <View style={ styles.tabBar }>
-        {
-          routes.map((route, index) => {
-            const { routes } = route;
-            const isActive = activeTabIndex === index;
-            const title = routes[0].params.title;
+      <View>
+        <BannerAd
+            unitId={ TestIds.BANNER }
+            size={ BannerAdSize.FULL_BANNER }
+            requestOptions={{
+              requestNonPersonalizedAdsOnly: true,
+            }}
+        />
+        <View style={ styles.tabBar }>
+          {
+            routes.map((route, index) => {
+              const { routes } = route;
+              const isActive = activeTabIndex === index;
+              const title = routes[0].params.title;
 
-            if(!hiddenTabs.indexOf(route.key)) return;
+              if(!hiddenTabs.indexOf(route.key)) return;
 
-            return (
-              <TouchableOpacity key={ route.key } onPress={ this.goToRoute(route.key) } style={ styles.tabBarTab }>
-                <Icon name={ this.getIconName(route.key) } size={ 25 } style={ [styles.tabBarIcon, isActive && styles.activeTab] } />
-                <Text style={ [styles.tabBarText, isActive && styles.activeTab] }>{ title }</Text>
-              </TouchableOpacity>
-            );
-          })
-        }
+              return (
+                  <TouchableOpacity key={ route.key } onPress={ this.goToRoute(route.key) } style={ styles.tabBarTab }>
+                    <Icon name={ this.getIconName(route.key) } size={ 25 } style={ [styles.tabBarIcon, isActive && styles.activeTab] } />
+                    <Text style={ [styles.tabBarText, isActive && styles.activeTab] }>{ title }</Text>
+                  </TouchableOpacity>
+              );
+            })
+          }
+        </View>
       </View>
     );
   }
