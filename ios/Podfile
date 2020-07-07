@@ -81,7 +81,6 @@ target 'SoundMeter' do
 
   pod 'RNSoundLevel', :path => '../node_modules/react-native-sound-level'
 
-  pod 'RNAudio', :path => '../node_modules/react-native-audio'
 
   pod 'RNSVG', :path => '../node_modules/react-native-svg'
 
