@@ -1,6 +1,7 @@
 import { homeActionTypes } from './homeConstants';
 
 const initialState = {
+    currentLevel: null,
     levels: []
 };
 
@@ -14,6 +15,7 @@ export default function homeReducer(state = initialState, action) {
             }
             return {
                 ...state,
+                currentLevel: action.payload,
                 levels: state.levels.length > 100 ? [...newLevels, action.payload] : [...state.levels, action.payload],
             };
         case homeActionTypes.RESET_DATA:

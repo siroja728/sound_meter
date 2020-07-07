@@ -6,6 +6,7 @@ import { ROUTES } from './routesConstants';
 import Store from '../store/store';
 import NavigationTabBar from '../components/navigationTabBar/navigationTabBar';
 import HomeScreen from '../screens/home/home';
+import AboutScreen from '../screens/about/info';
 
 
 const { store } = Store();
@@ -44,7 +45,7 @@ const reducerCreate = params => {
                                 key={ ROUTES.ABOUT }
                                 hideNavBar
                                 title='Info'
-                                component={ ()=><SafeAreaView><View style={{flex:1,backgroundColor:'red'}}><Text>About</Text></View></SafeAreaView> }
+                                component={ AboutScreen }
                             />
 
                         </Scene>

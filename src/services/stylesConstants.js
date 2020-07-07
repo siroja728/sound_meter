@@ -5,5 +5,6 @@ export default {
         grey: '#b6b6b6',
         lightGrey: '#dfdfdf',
         white: '#fff',
+        warning: '#F16820',
     }
 };

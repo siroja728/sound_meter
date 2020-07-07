@@ -38,31 +38,31 @@ export const handleColorChange = (currentLevel) => {
         return '#FED006'
     }
     // Subway, shouted conversation
-    if((currentLevel >=90) && (currentLevel <= 95)) {
+    if((currentLevel >89) && (currentLevel <= 95)) {
         return '#FBBD12'
     }
     // Boom box, ATV, motorcycle
-    if((currentLevel >=96) && (currentLevel <= 100)) {
+    if((currentLevel > 95) && (currentLevel <= 100)) {
         return '#FEAC17'
     }
     // School dance
-    if((currentLevel >=101) && (currentLevel <= 105)) {
+    if((currentLevel >100) && (currentLevel <= 105)) {
         return '#F9A11B'
     }
     // Chainsaw, leaf blower, snowmobile
-    if((currentLevel >=106) && (currentLevel <= 119)) {
+    if((currentLevel >105) && (currentLevel <= 119)) {
         return '#F5891C'
     }
     // Sports crowd, rock concert, loud symphony
-    if((currentLevel >=120) && (currentLevel <= 129)) {
+    if((currentLevel >119) && (currentLevel <= 129)) {
         return '#F16820'
     }
     // Stock car races
-    if((currentLevel >=130) && (currentLevel <= 139)) {
+    if((currentLevel > 129) && (currentLevel <= 139)) {
         return '#F74424'
     }
     // Gun shot, siren at 100 feet
-    if(currentLevel >=140) {
+    if(currentLevel > 139) {
         return '#EC1A23'
     }
 };
