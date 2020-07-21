@@ -130,7 +130,7 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.soundmeter"
+        applicationId "com.yemelyasoundmeter"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1

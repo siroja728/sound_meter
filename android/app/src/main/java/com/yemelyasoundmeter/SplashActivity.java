@@ -1,5 +1,5 @@
 
-package com.soundmeter;
+package com.yemelyasoundmeter;
 
 import android.content.Intent;
 import android.os.Bundle;

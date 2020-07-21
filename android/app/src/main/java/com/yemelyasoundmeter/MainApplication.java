@@ -1,4 +1,4 @@
-package com.soundmeter;
+package com.yemelyasoundmeter;
 
 import android.app.Application;
 import android.content.Context;

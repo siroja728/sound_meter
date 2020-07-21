@@ -1,4 +1,4 @@
-package com.soundmeter;
+package com.yemelyasoundmeter;
 
 import com.facebook.react.ReactActivity;
 import org.devio.rn.splashscreen.SplashScreen;
